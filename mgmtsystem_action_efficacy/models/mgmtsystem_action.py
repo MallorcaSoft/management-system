@@ -29,6 +29,14 @@ class MgmtsystemAction(models.Model):
     # notes on the efficacy
     efficacy_description = fields.Text("Notes")
 
+    _sql_constraints = [
+        (
+            "check_efficacy_value",
+            "CHECK(efficacy_value >= 0 AND efficacy_value <= 100)",
+            "The percentage of Rating should be between 0 and 100.",
+        )
+    ]
+
     @api.onchange("efficacy_value")
     def _onchange_efficacy_value(self):
         if self.efficacy_value < 0 or self.efficacy_value > 100:
